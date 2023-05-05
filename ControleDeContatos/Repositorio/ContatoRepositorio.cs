@@ -1,14 +1,24 @@
 ﻿using ControleDeContatos.Data;
 using ControleDeContatos.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ControleDeContatos.Repositorio
 {
-    public class ContatoRepositorio
+    public class ContatoRepositorio : IContatoRepositorio
     {
         private readonly BancoContext _bancoContext; 
         public ContatoRepositorio(BancoContext bancoContext) 
         { 
             _bancoContext = bancoContext;
+        }
+        public ContatoModel ListarPorId(int id)
+        {
+            return _bancoContext.Contatos.FirstOrDefault(b => b.Id == id);
+        }
+        public List<ContatoModel> BuscarTodos()
+        {
+            return _bancoContext.Contatos.ToList();
         }
         public ContatoModel Adicionar(ContatoModel contato)
         {
@@ -16,6 +26,7 @@ namespace ControleDeContatos.Repositorio
             _bancoContext.SaveChanges(); 
             return contato; 
         }
+
 
     }
 }
